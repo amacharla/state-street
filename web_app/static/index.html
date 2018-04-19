@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="State Street URL shortener">
+    <meta name="author" content="Anoop M.">
+
+    <title>State Street URL Shortener!</title>
+    <link rel="shortcut icon" href="images/favicon.ico" />
+
+    <!-- Custom styles -->
+    <link href="https://cdn.rawgit.com/amacharla/psst-url_shortener/43694fb2/web_app/static/styles/main.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  </head>
+
+ <body>
+
+    <div class="page">
+      <h1 class="title">Wanna shorten your URL? 🔗</h1>
+      
+      <br>
+      
+      <form method="post">
+        <input id="ogUrl"
+               type="text"
+               name="ogUrl"
+               placeholder="Enter Your URL"
+               aria-label="url"
+               aria-invalid="false"
+               aria-describedby="Please enter a valid URL" />
+        <button type="submit">Shorten!</button>
+      </form>
+
+      {% if shortUrl is defined %}
+            <p> ✨ URL: <a href="{{ shortUrl }}">/{{ shortUrl }}</a> </p>
+      {% endif %}
+
+    </div>
+
+  </body>
+
+</html>

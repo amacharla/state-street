@@ -1,0 +1,29 @@
+FROM nginx
+
+MAINTAINER Anoop Macharla <amacharla@sparkist.tech>
+
+# Install ping
+RUN apt-get update && apt-get install -y iputils-ping
+RUN rm -rf /var/lib/apt/lists/*
+	
+
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+	&& ln -sf /dev/stderr /var/log/nginx/error.log
+
+# tell the container what port will be using 
+# App server is listening on port 80 to server dynamic content..i think
+EXPOSE 80
+
+# Move respective files to right location based on configration
+COPY web_app/static /usr/share/nginx/html
+COPY config_files/nginx_site.template /etc/nginx/conf.d/nginx_site.template
+COPY config_files/wait.sh /wait.sh
+
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+# Remove default configuration from Nginx and add custom
+RUN ln -fs /etc/nginx/conf.d/nginx_site.template /etc/nginx/conf.d/default.conf 
+
+# Make NGINX run on the foreground
+CMD ["./wait.sh", "app_server:5001","-s","--", "service", "nginx", "start"]
